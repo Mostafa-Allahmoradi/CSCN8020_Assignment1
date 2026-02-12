@@ -1,13 +1,17 @@
 import numpy as np
 import time
 
-def standard_value_iteration(mdp):
+def standard_value_iteration(mdp, log_file=None):
     """
     Standard VI: Uses two arrays (V and V_new) for synchronous updates.
+    Logs details to log_file if provided.
     """
     V = np.zeros((mdp.rows, mdp.cols))
     iteration = 0
     start_time = time.time()
+    
+    if log_file:
+        log_file.write(f"--- Starting Standard Value Iteration ---\n")
     
     while True:
         delta = 0
@@ -31,19 +35,30 @@ def standard_value_iteration(mdp):
         
         V = V_new
         iteration += 1
+        
+        # LOGGING
+        if log_file:
+            log_file.write(f"Iteration {iteration}: Max Delta = {delta:.6f}\n")
+            log_file.write(f"Grid Values:\n{np.round(V, 3)}\n")
+            log_file.write("-" * 30 + "\n")
+
         if delta < mdp.theta:
             break
             
     end_time = time.time()
     return V, iteration, end_time - start_time
 
-def inplace_value_iteration(mdp):
+def inplace_value_iteration(mdp, log_file=None):
     """
-    In-Place VI: Uses a single array V. Updates are asynchronous and propagate faster.
+    In-Place VI: Uses a single array V. Updates are asynchronous.
+    Logs details to log_file if provided.
     """
     V = np.zeros((mdp.rows, mdp.cols))
     iteration = 0
     start_time = time.time()
+    
+    if log_file:
+        log_file.write(f"\n--- Starting In-Place Value Iteration ---\n")
     
     while True:
         delta = 0
@@ -67,6 +82,13 @@ def inplace_value_iteration(mdp):
                 delta = max(delta, abs(V[r, c] - v_old))
         
         iteration += 1
+
+        # LOGGING
+        if log_file:
+            log_file.write(f"Iteration {iteration}: Max Delta = {delta:.6f}\n")
+            log_file.write(f"Grid Values:\n{np.round(V, 3)}\n")
+            log_file.write("-" * 30 + "\n")
+
         if delta < mdp.theta:
             break
             
