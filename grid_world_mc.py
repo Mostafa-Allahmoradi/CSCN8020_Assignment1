@@ -1,7 +1,7 @@
 class GridWorldMC:
     """
     A simple 4x4 Grid Environment.
-    Start: (1,3)
+    Start: (0, 0) -> Starting position with -1 reward per step
     Trap:  (1,1) -> Ends episode with -50 reward
     Goal:  (3,3) -> Ends episode with +10 reward
     Actions: 0=Up, 1=Down, 2=Left, 3=Right
@@ -10,7 +10,7 @@ class GridWorldMC:
         self.rows, self.cols = 4, 4
         self.state_space = [(r, c) for r in range(self.rows) for c in range(self.cols)]
         self.action_space = [0, 1, 2, 3] 
-        self.start_node = (1, 3) 
+        self.start_node = (0, 0) 
         self.trap_node = (1, 1)
         self.goal_node = (3, 3)
 
